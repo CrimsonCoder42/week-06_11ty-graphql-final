@@ -1,0 +1,14 @@
+---
+title: 11ty & SWAPI GraphQL Demonstration
+layout: base
+---
+
+<h2>Hello, Star Wars!</h2>
+
+<ul>
+  {% for filmPage in collections.filmPages %}
+    <li>
+      <a href="{{ filmPage.url }}">Star Wars: {{ filmPage.data.film.title }}</a>
+    </li>
+  {% endfor %}
+</ul>

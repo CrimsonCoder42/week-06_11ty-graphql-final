@@ -1,0 +1,52 @@
+---
+pagination:
+    data: films.data.allFilms.films
+    size: 1
+    alias: film
+    addAllPagesToCollections: true
+permalink: "films/starwars-ep_{{ film.episodeID | slugify }}/"
+eleventyComputed:
+  title: "{{ film.title }}"
+layout: base
+tags: filmPages
+---
+
+<h1>{{ film.title }}</h1>
+
+<section id="dashboard">
+  <div id="moviePoster">
+    <img src="{{ film.poster }}" alt="{{ film.title }}">
+  </div>
+  <div id="infoBoard">
+    <p>
+      {{ film.plot }}
+    </p>
+    <ul>
+      <li>
+        <strong>Director:
+        </strong>
+        {{ film.director }}
+      </li>
+      <li>
+        <strong>Release Date:</strong>
+        {{ film.releaseDate }}
+      </li>
+    </ul>
+  </div>
+  <div id="dataBoard">
+    <nav>
+      <ul>
+        <li><a href="#">Characters</a></li>
+        <li><a href="#">Planets</a></li>
+        <li><a href="#">Starships</a></li>
+        <li><a href="#">Vehicles</a></li>
+      </ul>
+    </nav>
+    <div id="dataListContainer">
+      {% render '_includes/objectList.liquid', listName: 'Characters', objList: film.characterConnection.characters %}
+      {% render '_includes/objectList.liquid', listName: 'Planets', objList: film.planetConnection.planets %}
+      {% render '_includes/objectList.liquid', listName: 'Starships', objList: film.starshipConnection.starships %}
+      {% render '_includes/objectList.liquid', listName: 'Vehicles', objList: film.vehicleConnection.vehicles %}
+    </div>
+  </div>
+</section>
