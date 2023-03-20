@@ -1,0 +1,9 @@
+<div id="{{ listName }}" class="dataList">
+  <h3>{{ listName }}</h3>
+
+  <ul>
+    {% for obj in objList %}
+      <li>{{ obj.name }}</li>
+    {% endfor %}
+  </ul>
+</div>
