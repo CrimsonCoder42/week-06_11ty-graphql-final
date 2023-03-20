@@ -11,6 +11,13 @@ layout: base
 tags: filmPages
 ---
 
+{% comment %}this is where the film data comes from data: films.data.allFilms.films{% endcomment %}
+
+{% comment %}we use pagination for each film page, so we can use the film data in the film object important{% endcomment %}
+{% comment %}{% endcomment %}
+{% comment %}{% render '_includes/filmHeader.liquid', film: film %}{% endcomment %}
+
+
 <h1>{{ film.title }}</h1>
 
 <section id="dashboard">
