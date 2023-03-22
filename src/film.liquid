@@ -1,59 +1,41 @@
 ---
-pagination:
-    data: films.data.allFilms.films
-    size: 1
-    alias: film
-    addAllPagesToCollections: true
-permalink: "films/starwars-ep_{{ film.episodeID | slugify }}/"
-eleventyComputed:
-  title: "{{ film.title }}"
+title: Course 112559
 layout: base
-tags: filmPages
 ---
 
-{% comment %}this is where the film data comes from data: films.data.allFilms.films{% endcomment %}
+<!-- Course information -->
+<h1>{{ course.name }}</h1>
+<p>Course ID: {{ course.id }}</p>
 
-{% comment %}we use pagination for each film page, so we can use the film data in the film object important{% endcomment %}
-{% comment %}{% endcomment %}
-{% comment %}{% render '_includes/filmHeader.liquid', film: film %}{% endcomment %}
-
-
-<h1>{{ film.title }}</h1>
-
-<section id="dashboard">
-  <div id="moviePoster">
-    <img src="{{ film.poster }}" alt="{{ film.title }}">
-  </div>
-  <div id="infoBoard">
-    <p>
-      {{ film.plot }}
-    </p>
-    <ul>
+<!-- Assignments -->
+{% if course.assignmentsConnection.nodes.size > 0 %}
+  <h2>Assignments</h2>
+  <ul>
+    {% for assignment in course.assignmentsConnection.nodes %}
       <li>
-        <strong>Director:
-        </strong>
-        {{ film.director }}
+        <h3>{{ assignment.name }}</h3>
+        <p>{{ assignment.description }}</p>
+        <p>Due at: {{ assignment.dueAt | date: "%Y-%m-%d %H:%M:%S" }}</p>
       </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<!-- Modules -->
+{% if course.modulesConnection.nodes.size > 0 %}
+  <h2>Modules</h2>
+  <ul>
+    {% for module in course.modulesConnection.nodes %}
       <li>
-        <strong>Release Date:</strong>
-        {{ film.releaseDate }}
+        <h3>{{ module.name }}</h3>
+        <ul>
+          {% for item in module.items %}
+            <li>
+              <p>{{ item.title }} ({{ item.type }})</p>
+            </li>
+          {% endfor %}
+        </ul>
       </li>
-    </ul>
-  </div>
-  <div id="dataBoard">
-    <nav>
-      <ul>
-        <li><a href="#">Characters</a></li>
-        <li><a href="#">Planets</a></li>
-        <li><a href="#">Starships</a></li>
-        <li><a href="#">Vehicles</a></li>
-      </ul>
-    </nav>
-    <div id="dataListContainer">
-      {% render '_includes/objectList.liquid', listName: 'Characters', objList: film.characterConnection.characters %}
-      {% render '_includes/objectList.liquid', listName: 'Planets', objList: film.planetConnection.planets %}
-      {% render '_includes/objectList.liquid', listName: 'Starships', objList: film.starshipConnection.starships %}
-      {% render '_includes/objectList.liquid', listName: 'Vehicles', objList: film.vehicleConnection.vehicles %}
-    </div>
-  </div>
-</section>
+    {% endfor %}
+  </ul>
+{% endif %}
