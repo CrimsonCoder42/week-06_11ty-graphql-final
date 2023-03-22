@@ -1,9 +1,6 @@
 // Load the dotenv library to load environment variables from a .env file
 require('dotenv').config();
 
-// Load the EleventyFetch library to make HTTP requests
-const EleventyFetch = require("@11ty/eleventy-fetch");
-
 // Set up the Canvas LMS GraphQL API endpoint and access token
 const canvasEndpoint = 'https://YOUR_CANVAS_DOMAIN/api/graphql';
 const accessToken = process.env.CANVAS_API_TOKEN;
@@ -26,7 +23,7 @@ const graphQL = JSON.stringify({
   `,
 });
 
-// Export an async function that fetches data from the Canvas LMS GraphQL API using EleventyFetch
+// Export an async function that fetches data from the Canvas LMS GraphQL API using fetch
 module.exports = async function () {
   const fetchOptions = {
     method: 'POST',
@@ -38,7 +35,8 @@ module.exports = async function () {
   };
 
   try {
-    const data = await EleventyFetch(canvasEndpoint, fetchOptions);
+    const response = await fetch(canvasEndpoint, fetchOptions);
+    const data = await response.json();
     return data.data.course;
   } catch (error) {
     console.log('Error fetching Canvas LMS data:', error);
